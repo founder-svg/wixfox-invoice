@@ -293,26 +293,15 @@ export default function InvoiceStudio({ quotation, setQuotation, companyProfile,
                 <span>Client & Proposal Salutation</span>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <div>
-                  <label className="text-[11px] text-slate-400 uppercase font-semibold">Client / Company Name</label>
-                  <input
-                    type="text"
-                    value={quotation.client?.name || ''}
-                    onChange={(e) => updateClientField('name', e.target.value)}
-                    className="w-full mt-1 bg-black/40 border border-white/10 rounded-lg px-3 py-1.5 text-xs text-white focus:border-[#1A6FD4] focus:outline-none font-bold"
-                  />
-                </div>
-                <div>
-                  <label className="text-[11px] text-slate-400 uppercase font-semibold">Client Slogan / Subtitle</label>
-                  <input
-                    type="text"
-                    value={quotation.client?.tagline || ''}
-                    onChange={(e) => updateClientField('tagline', e.target.value)}
-                    className="w-full mt-1 bg-black/40 border border-white/10 rounded-lg px-3 py-1.5 text-xs text-white focus:border-[#1A6FD4] focus:outline-none"
-                    placeholder="e.g. BUILD | PLAN | GROW"
-                  />
-                </div>
+              <div>
+                <label className="text-[11px] text-slate-400 uppercase font-semibold">Client / Company Name</label>
+                <input
+                  type="text"
+                  value={quotation.client?.name || ''}
+                  onChange={(e) => updateClientField('name', e.target.value)}
+                  className="w-full mt-1 bg-black/40 border border-white/10 rounded-lg px-3 py-2 text-xs text-white focus:border-[#1A6FD4] focus:outline-none font-bold text-sm"
+                  placeholder="e.g. Client Company Name"
+                />
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -538,44 +527,40 @@ export default function InvoiceStudio({ quotation, setQuotation, companyProfile,
                     </div>
                   </div>
 
-                  {/* DOCUMENT TITLE & CLIENT SECTION */}
+                  {/* DOCUMENT TITLE & METADATA SECTION */}
                   <div className="mt-5 grid grid-cols-12 gap-4 items-center">
-                    {/* Client Identity & Emblem */}
-                    <div className="col-span-7 flex items-center gap-3">
-                      <div className="w-14 h-14 rounded-lg bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-700 shrink-0">
-                        <Building2 className="w-8 h-8" />
-                      </div>
-                      <div>
-                        <h2 className="text-lg font-black tracking-tight text-[#78350F] uppercase font-['Montserrat'] leading-tight">
-                          {quotation.client?.name || 'AAVAD KRUPA CONSTRUCTION & CONSULTANCY'}
-                        </h2>
-                        <div className="text-[9px] font-bold tracking-widest text-amber-800 mt-0.5">
-                          {quotation.client?.tagline || 'BUILD | PLAN | GROW'}
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Quotation Big Title & Meta */}
-                    <div className="col-span-5 text-right">
+                    {/* Document Title & Recipient */}
+                    <div className="col-span-7">
                       <div className="text-3xl font-black tracking-tight text-[#0D2A68] uppercase font-['Montserrat'] leading-none">
                         {quotation.documentType || 'QUOTATION'}
                       </div>
-                      <div className="text-[10px] font-bold tracking-widest text-[#1A6FD4] uppercase mt-1">
+                      <div className="text-[11px] font-bold tracking-widest text-[#1A6FD4] uppercase mt-1">
                         {quotation.categoryTitle || 'DIGITAL MARKETING SERVICES'}
                       </div>
+                      <div className="mt-2.5 text-xs text-slate-700 font-medium">
+                        <span className="text-slate-500 font-semibold uppercase text-[10px] tracking-wider block">
+                          {quotation.documentType === 'TAX INVOICE' ? 'Billed To:' : 'Quotation Prepared For:'}
+                        </span>
+                        <span className="text-sm font-black text-[#0A1A3A] uppercase font-['Montserrat']">
+                          {quotation.client?.name || 'Valued Client'}
+                        </span>
+                      </div>
+                    </div>
 
-                      <div className="mt-3 text-[10.5px] text-slate-800 space-y-0.5 font-medium">
-                        <div className="flex justify-end gap-3">
+                    {/* Quotation Meta Reference Box */}
+                    <div className="col-span-5 text-right">
+                      <div className="inline-block bg-slate-50 border border-slate-200 rounded-lg p-2.5 px-3.5 text-left text-[10.5px] text-slate-800 space-y-1 font-medium shadow-sm">
+                        <div className="flex justify-between gap-4">
                           <span className="text-slate-500">Quotation No :</span>
                           <span className="font-bold text-[#0D2A68]">{quotation.quotationNo}</span>
                         </div>
-                        <div className="flex justify-end gap-3">
+                        <div className="flex justify-between gap-4">
                           <span className="text-slate-500">Date :</span>
-                          <span className="font-bold">{quotation.date}</span>
+                          <span className="font-bold text-slate-900">{quotation.date}</span>
                         </div>
-                        <div className="flex justify-end gap-3">
+                        <div className="flex justify-between gap-4">
                           <span className="text-slate-500">Valid Till :</span>
-                          <span className="font-bold">{quotation.validTill}</span>
+                          <span className="font-bold text-slate-900">{quotation.validTill}</span>
                         </div>
                       </div>
                     </div>

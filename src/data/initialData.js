@@ -226,7 +226,6 @@ export const INITIAL_QUOTATION = {
   validTill: '2026-10-23',
   client: {
     name: 'AAVAD KRUPA CONSTRUCTION & CONSULTANCY',
-    tagline: 'BUILD | PLAN | GROW',
     phone: '+91 8511083277',
     email: 'info@aavadkrupa.com',
     salutation: 'Dear Sir/Madam,',

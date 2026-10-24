@@ -80,7 +80,6 @@ export default function App() {
       validTill: validTillDate,
       client: {
         name: lead.clientName,
-        tagline: 'BUILD | PLAN | GROW',
         phone: lead.phone,
         email: lead.email,
         salutation: `Dear ${lead.contactPerson || 'Sir/Madam'},`,
