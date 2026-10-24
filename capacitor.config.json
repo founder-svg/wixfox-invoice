@@ -1,0 +1,11 @@
+{
+  "appId": "com.wixfox.invoice",
+  "appName": "WixFox Studio",
+  "webDir": "dist",
+  "server": {
+    "androidScheme": "https"
+  },
+  "android": {
+    "allowMixedContent": true
+  }
+}

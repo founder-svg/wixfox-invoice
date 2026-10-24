@@ -5,6 +5,12 @@
     <link rel="icon" type="image/svg+xml" href="./wixfox-fox-logo.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>WixFox Studio — Agency ERP, Projects & Invoicing</title>
+    <!-- Auto-redirect to self-contained app if opened via file:// protocol directly to prevent blank screen -->
+    <script>
+      if (window.location.protocol === 'file:') {
+        window.location.replace('./WixFox-Studio-App.html');
+      }
+    </script>
     <!-- Google Fonts for High-Tech & Corporate Branding -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

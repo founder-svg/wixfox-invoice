@@ -7,9 +7,47 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
+    "start": "electron .",
     "electron": "electron .",
     "electron:dev": "concurrently -k \"vite\" \"wait-on tcp:5173 && electron .\"",
-    "dist": "vite build && electron-builder"
+    "build:exe": "vite build && electron-builder --win --x64",
+    "build:apk": "vite build && npx cap sync android && cd android && gradlew.bat assembleDebug",
+    "sync:android": "vite build && npx cap sync android"
+  },
+  "build": {
+    "appId": "com.wixfox.studio",
+    "productName": "WixFox Studio",
+    "copyright": "Copyright © 2026 WixFox Technologies",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**/*",
+      "electron/**/*",
+      "public/**/*"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    }
   },
   "keywords": [
     "wixfox",
@@ -22,6 +60,9 @@
   "author": "WixFox Technologies",
   "license": "MIT",
   "dependencies": {
+    "@capacitor/android": "^7.5.0",
+    "@capacitor/cli": "^7.5.0",
+    "@capacitor/core": "^7.5.0",
     "clsx": "^2.1.1",
     "html2canvas": "^1.4.1",
     "jspdf": "^2.5.2",
@@ -30,15 +71,16 @@
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
-    "@tailwindcss/vite": "^4.3.3",
+    "@tailwindcss/vite": "^4.1.18",
     "@types/react": "^19.0.8",
     "@types/react-dom": "^19.0.3",
     "@vitejs/plugin-react": "^4.3.4",
     "concurrently": "^9.1.2",
-    "electron": "^34.2.0",
+    "electron": "^34.5.8",
     "electron-builder": "^25.1.8",
-    "tailwindcss": "^4.3.3",
-    "vite": "^6.1.0",
+    "tailwindcss": "^4.1.18",
+    "vite": "^6.4.5",
+    "vite-plugin-singlefile": "^2.1.2",
     "wait-on": "^8.0.2"
   }
 }

@@ -1,18 +1,17 @@
-const { app, BrowserWindow, shell, ipcMain } = require('electron');
+const { app, BrowserWindow, shell } = require('electron');
 const path = require('path');
+const fs = require('fs');
 
 let mainWindow;
 
 function createWindow() {
-  const isDev = process.env.NODE_ENV === 'development' || !app.isPackaged;
-
   mainWindow = new BrowserWindow({
     width: 1360,
     height: 860,
     minWidth: 1024,
     minHeight: 700,
     backgroundColor: '#0A0C10',
-    title: 'WixFox Technologies — Studio Suite',
+    title: 'WixFox Studio — Agency ERP & Invoicing',
     icon: path.join(__dirname, '../public/wixfox-fox-logo.svg'),
     autoHideMenuBar: true,
     webPreferences: {
@@ -22,14 +21,20 @@ function createWindow() {
     }
   });
 
-  if (isDev) {
-    mainWindow.loadURL('http://localhost:5173');
-    // mainWindow.webContents.openDevTools();
+  const distHtmlPath = path.join(__dirname, '../dist/index.html');
+
+  // If built dist/index.html exists, prioritize it for instant offline loading with 0 blank screens
+  if (fs.existsSync(distHtmlPath) && process.env.VITE_DEV !== 'true') {
+    mainWindow.loadFile(distHtmlPath);
   } else {
-    mainWindow.loadFile(path.join(__dirname, '../dist/index.html'));
+    mainWindow.loadURL('http://localhost:5173').catch(() => {
+      if (fs.existsSync(distHtmlPath)) {
+        mainWindow.loadFile(distHtmlPath);
+      }
+    });
   }
 
-  // Handle external links (like WhatsApp or web pages) in the user's default browser
+  // External links (WhatsApp, Wixfox website) open in user's default browser
   mainWindow.webContents.setWindowOpenHandler(({ url }) => {
     shell.openExternal(url);
     return { action: 'deny' };

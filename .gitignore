@@ -32,3 +32,13 @@ dist-ssr
 release
 dist-electron
 out
+
+# Android Build & Gradle
+android/.gradle
+android/build
+android/app/build
+android/.idea
+android/captures
+*.iml
+.gradle
+local.properties
