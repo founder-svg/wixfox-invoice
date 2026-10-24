@@ -22,6 +22,7 @@ import {
 } from 'lucide-react';
 import { downloadQuotationPDF, numberToIndianWords } from '../utils/pdfGenerator';
 import { generateWhatsAppLink } from '../utils/whatsapp';
+import signatureImg from '../assets/signature.png';
 
 export default function InvoiceStudio({ quotation, setQuotation, companyProfile, servicesCatalog }) {
   const [activeView, setActiveView] = useState('split'); // 'split', 'editor', 'preview'
@@ -694,13 +695,13 @@ export default function InvoiceStudio({ quotation, setQuotation, companyProfile,
                         For Wixfox Technologies
                       </div>
 
-                      {/* Signature Graphical Stamp */}
-                      <div className="my-1 flex justify-center items-center h-12">
-                        <svg className="w-32 h-10 text-slate-800" viewBox="0 0 200 60" fill="none" stroke="currentColor" strokeWidth="2">
-                          <path d="M20 40 Q 50 10, 80 35 T 140 25 Q 160 50, 180 30" />
-                          <path d="M60 45 L 120 45" strokeWidth="1.5" />
-                          <circle cx="85" cy="25" r="8" fill="none" />
-                        </svg>
+                      {/* Official Handwritten Signature Image */}
+                      <div className="my-1 flex justify-center items-center h-14">
+                        <img 
+                          src={signatureImg} 
+                          alt="Authorised Signature Wixfox Technologies" 
+                          className="h-14 max-w-[170px] object-contain mix-blend-multiply drop-shadow-sm select-none"
+                        />
                       </div>
 
                       <div className="text-[10px] font-bold text-slate-900 border-t border-slate-300 pt-1">
