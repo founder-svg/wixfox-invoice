@@ -15,10 +15,18 @@ function createWindow() {
     icon: path.join(__dirname, '../public/wixfox-fox-logo.svg'),
     autoHideMenuBar: true,
     webPreferences: {
-      nodeIntegration: true,
-      contextIsolation: false,
+      nodeIntegration: false,
+      contextIsolation: true,
       webSecurity: false
     }
+  });
+
+  mainWindow.webContents.on('did-finish-load', () => {
+    console.log('MainWindow finished loading successfully!');
+  });
+
+  mainWindow.webContents.on('did-fail-load', (event, errorCode, errorDescription, validatedURL) => {
+    console.error('Failed to load URL:', validatedURL, 'Error:', errorCode, errorDescription);
   });
 
   const distHtmlPath = path.join(__dirname, '../dist/index.html');
