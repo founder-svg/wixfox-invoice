@@ -1,0 +1,44 @@
+{
+  "name": "wixfox-studio",
+  "version": "1.0.0",
+  "description": "WixFox Technologies - Official Agency ERP, Leads, Projects & Invoice Studio",
+  "main": "electron/main.cjs",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "electron": "electron .",
+    "electron:dev": "concurrently -k \"vite\" \"wait-on tcp:5173 && electron .\"",
+    "dist": "vite build && electron-builder"
+  },
+  "keywords": [
+    "wixfox",
+    "erp",
+    "invoice",
+    "leads",
+    "quotation",
+    "whatsapp"
+  ],
+  "author": "WixFox Technologies",
+  "license": "MIT",
+  "dependencies": {
+    "clsx": "^2.1.1",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^2.5.2",
+    "lucide-react": "^0.475.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.3",
+    "@types/react": "^19.0.8",
+    "@types/react-dom": "^19.0.3",
+    "@vitejs/plugin-react": "^4.3.4",
+    "concurrently": "^9.1.2",
+    "electron": "^34.2.0",
+    "electron-builder": "^25.1.8",
+    "tailwindcss": "^4.3.3",
+    "vite": "^6.1.0",
+    "wait-on": "^8.0.2"
+  }
+}
