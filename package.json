@@ -26,7 +26,9 @@
       "electron/**/*",
       "public/**/*"
     ],
+    "icon": "public/icon.ico",
     "win": {
+      "icon": "public/icon.ico",
       "target": [
         {
           "target": "nsis",

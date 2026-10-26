@@ -12,7 +12,7 @@ function createWindow() {
     minHeight: 700,
     backgroundColor: '#0A0C10',
     title: 'WixFox Studio — Agency ERP & Invoicing',
-    icon: path.join(__dirname, '../public/wixfox-fox-logo.svg'),
+    icon: path.join(__dirname, '../public/icon.png'),
     autoHideMenuBar: true,
     webPreferences: {
       nodeIntegration: false,

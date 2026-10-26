@@ -15,6 +15,10 @@ if ($LASTEXITCODE -ge 8) {
 $exePath = Join-Path $installDir "WixFox Studio.exe"
 Write-Host "Target executable: $exePath"
 
+Copy-Item -Path "public\icon.ico" -Destination (Join-Path $installDir "icon.ico") -Force
+Copy-Item -Path "public\icon.png" -Destination (Join-Path $installDir "icon.png") -Force
+$iconPath = Join-Path $installDir "icon.ico"
+
 $wsh = New-Object -ComObject WScript.Shell
 
 # 1. Desktop Shortcut
@@ -24,8 +28,9 @@ $sc1 = $wsh.CreateShortcut($desktopLnk)
 $sc1.TargetPath = $exePath
 $sc1.WorkingDirectory = $installDir
 $sc1.Description = "WixFox Studio - Agency ERP, Projects & Invoicing"
+$sc1.IconLocation = "$iconPath,0"
 $sc1.Save()
-Write-Host "Desktop shortcut created at: $desktopLnk"
+Write-Host "Desktop shortcut created at: $desktopLnk with Fox icon"
 
 # 2. Start Menu Shortcut
 $startMenuPath = [System.Environment]::GetFolderPath([System.Environment+SpecialFolder]::Programs)
@@ -34,8 +39,9 @@ $sc2 = $wsh.CreateShortcut($startMenuLnk)
 $sc2.TargetPath = $exePath
 $sc2.WorkingDirectory = $installDir
 $sc2.Description = "WixFox Studio"
+$sc2.IconLocation = "$iconPath,0"
 $sc2.Save()
-Write-Host "Start Menu shortcut created at: $startMenuLnk"
+Write-Host "Start Menu shortcut created at: $startMenuLnk with Fox icon"
 
 # 3. Project Root Shortcut
 $projectLnk = Join-Path (Get-Location) "WixFox Studio.lnk"
@@ -43,7 +49,20 @@ $sc3 = $wsh.CreateShortcut($projectLnk)
 $sc3.TargetPath = $exePath
 $sc3.WorkingDirectory = $installDir
 $sc3.Description = "WixFox Studio"
+$sc3.IconLocation = "$iconPath,0"
 $sc3.Save()
-Write-Host "Project shortcut created at: $projectLnk"
+Write-Host "Project shortcut created at: $projectLnk with Fox icon"
+
+# Refresh Windows Shell Icon Cache
+try {
+    $code = @'
+    [System.Runtime.InteropServices.DllImport("shell32.dll")]
+    public static extern void SHChangeNotify(int wEventId, int uFlags, int dwItem1, int dwItem2);
+'@
+    $type = Add-Type -MemberDefinition $code -Name "ShellChangeNotifier" -Namespace "Win32" -PassThru
+    $type::SHChangeNotify(0x08000000, 0, 0, 0) # SHCNE_ASSOCCHANGED
+} catch {
+    # Ignore if already declared
+}
 
 Write-Host "INSTALLATION COMPLETED SUCCESSFULLY!"
