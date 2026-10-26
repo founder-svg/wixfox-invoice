@@ -12,6 +12,17 @@ if ($LASTEXITCODE -ge 8) {
     throw "Robocopy failed with exit code $LASTEXITCODE"
 }
 
+# Ensure resources/app has latest dist and electron
+$appDir = Join-Path $installDir "resources\app"
+New-Item -ItemType Directory -Path (Join-Path $appDir "dist") -Force | Out-Null
+New-Item -ItemType Directory -Path (Join-Path $appDir "electron") -Force | Out-Null
+Copy-Item -Path "dist\index.html" -Destination (Join-Path $appDir "dist\index.html") -Force
+Copy-Item -Path "electron\main.cjs" -Destination (Join-Path $appDir "electron\main.cjs") -Force
+Copy-Item -Path "package.json" -Destination (Join-Path $appDir "package.json") -Force
+if (Test-Path "public") {
+    Copy-Item -Path "public" -Destination (Join-Path $appDir "public") -Recurse -Force
+}
+
 $exePath = Join-Path $installDir "WixFox Studio.exe"
 Write-Host "Target executable: $exePath"
 
