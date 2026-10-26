@@ -15,9 +15,11 @@ import {
   INITIAL_QUOTATION 
 } from './data/initialData';
 import { numberToIndianWords } from './utils/pdfGenerator';
+import { api } from './api/client';
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState('quotation'); // default to quotation studio for immediate inspection!
+  const [activeTab, setActiveTab] = useState('quotation');
+  const [isServerOnline, setIsServerOnline] = useState(false);
 
   // Persistent LocalStorage State
   const [companyProfile, setCompanyProfile] = useState(() => {
@@ -45,10 +47,45 @@ export default function App() {
     return saved ? JSON.parse(saved) : INITIAL_QUOTATION;
   });
 
-  // Sync to LocalStorage
+  // Real-time Database Server Sync
+  useEffect(() => {
+    let isMounted = true;
+    async function syncWithDatabase() {
+      const health = await api.checkHealth();
+      if (!isMounted) return;
+      if (health.online) {
+        setIsServerOnline(true);
+        const [serverLeads, serverProjects, serverQuotes, serverProfile, serverServices] = await Promise.all([
+          api.getLeads(),
+          api.getProjects(),
+          api.getQuotations(),
+          api.getCompanyProfile(),
+          api.getServices()
+        ]);
+        if (!isMounted) return;
+        if (serverLeads && serverLeads.length > 0) setLeads(serverLeads);
+        if (serverProjects && serverProjects.length > 0) setProjects(serverProjects);
+        if (serverQuotes && serverQuotes.length > 0) setQuotation(serverQuotes[0]);
+        if (serverProfile) setCompanyProfile(serverProfile);
+        if (serverServices && serverServices.length > 0) setServicesCatalog(serverServices);
+      } else {
+        setIsServerOnline(false);
+      }
+    }
+
+    syncWithDatabase();
+    const interval = setInterval(syncWithDatabase, 15000);
+    return () => {
+      isMounted = false;
+      clearInterval(interval);
+    };
+  }, []);
+
+  // Sync to LocalStorage & Server
   useEffect(() => {
     localStorage.setItem('wixfox_profile', JSON.stringify(companyProfile));
-  }, [companyProfile]);
+    if (isServerOnline) api.updateCompanyProfile(companyProfile);
+  }, [companyProfile, isServerOnline]);
 
   useEffect(() => {
     localStorage.setItem('wixfox_services', JSON.stringify(servicesCatalog));
@@ -64,7 +101,8 @@ export default function App() {
 
   useEffect(() => {
     localStorage.setItem('wixfox_quotation', JSON.stringify(quotation));
-  }, [quotation]);
+    if (isServerOnline) api.saveQuotation(quotation);
+  }, [quotation, isServerOnline]);
 
   // Actions
   const handleCreateQuotationForLead = (lead) => {
@@ -234,6 +272,7 @@ export default function App() {
         onNewQuotation={() => setActiveTab('quotation')}
         onNewLead={() => setActiveTab('leads')}
         companyProfile={companyProfile}
+        isServerOnline={isServerOnline}
       />
 
       {/* Main Body with Sidebar + Tab Content */}

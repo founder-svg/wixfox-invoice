@@ -8,8 +8,11 @@
     "build": "vite build",
     "preview": "vite preview",
     "start": "electron .",
+    "server": "node server/src/server.js",
+    "server:dev": "nodemon server/src/server.js",
+    "dev:all": "concurrently -k \"vite\" \"node server/src/server.js\"",
     "electron": "electron .",
-    "electron:dev": "concurrently -k \"vite\" \"wait-on tcp:5173 && electron .\"",
+    "electron:dev": "concurrently -k \"vite\" \"node server/src/server.js\" \"wait-on tcp:5173 && electron .\"",
     "build:exe": "vite build && electron-builder --win --x64",
     "build:apk": "vite build && npx cap sync android && cd android && gradlew.bat assembleDebug",
     "sync:android": "vite build && npx cap sync android"

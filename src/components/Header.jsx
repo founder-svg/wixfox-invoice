@@ -6,7 +6,8 @@ export default function Header({
   setActiveTab, 
   onNewQuotation, 
   onNewLead, 
-  companyProfile 
+  companyProfile,
+  isServerOnline = false
 }) {
   return (
     <header className="h-18 border-b border-slate-800/80 bg-[#0C101A]/95 backdrop-blur-xl px-7 flex items-center justify-between z-30 sticky top-0 shadow-lg shrink-0">
@@ -39,8 +40,13 @@ export default function Header({
       {/* Center Quick Stats / Motto */}
       <div className="hidden lg:flex items-center gap-6 text-xs text-slate-300 font-medium">
         <div className="flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-          <span>Local Engine Active</span>
+          <span className={`w-2.5 h-2.5 rounded-full ${isServerOnline ? 'bg-emerald-400 animate-pulse' : 'bg-amber-400'}`}></span>
+          <span className="font-semibold text-white">
+            {isServerOnline ? 'Database Server Active' : 'Offline Local Mode'}
+          </span>
+          <span className="text-[10px] text-slate-500 font-mono hidden xl:inline">
+            {isServerOnline ? '(localhost:5000)' : '(localStorage)'}
+          </span>
         </div>
         <div className="h-4 w-px bg-slate-800"></div>
         <div className="flex items-center gap-2 hover:text-white transition-colors cursor-pointer" onClick={() => window.open('https://www.wixfox.com', '_blank')}>
