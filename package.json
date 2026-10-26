@@ -29,6 +29,7 @@
     "icon": "public/icon.ico",
     "win": {
       "icon": "public/icon.ico",
+      "signAndEditExecutable": false,
       "target": [
         {
           "target": "nsis",
